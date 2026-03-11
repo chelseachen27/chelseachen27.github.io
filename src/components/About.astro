@@ -1,0 +1,19 @@
+---
+import { about } from "../data";
+---
+
+<section id="about" class="mb-10 scroll-mt-16 md:mb-16 lg:mb-24 lg:scroll-mt-24">
+  <h2 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400 lg:sr-only">About</h2>
+  <div class="content-card space-y-4 text-gray-600 leading-relaxed">
+    {about.map((paragraph) => (
+      <p set:html={paragraph} />
+    ))}
+  </div>
+</section>
+
+<style>
+  :global(section#about strong) {
+    color: var(--color-gray-900);
+    font-weight: 600;
+  }
+</style>

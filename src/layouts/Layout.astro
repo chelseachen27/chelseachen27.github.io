@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+    </style>
+  </head>
+  <body class="antialiased leading-relaxed">
+    <!-- Subtle top accent bar -->
+    <div class="h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+    <div class="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-16 lg:px-24 lg:py-0">
+      <div class="lg:flex lg:justify-between lg:gap-12">
+        <slot />
+      </div>
+    </div>
+
+    <script>
+      // Scroll-tracked navigation
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-link");
+
+      function updateActiveNav() {
+        const scrollY = window.scrollY + 100;
+
+        sections.forEach((section) => {
+          const el = section as HTMLElement;
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          const id = el.getAttribute("id");
+
+          if (scrollY >= top && scrollY < top + height) {
+            navLinks.forEach((link) => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === `#${id}`) {
+                link.classList.add("active");
+              }
+            });
+          }
+        });
+      }
+
+      window.addEventListener("scroll", updateActiveNav);
+      updateActiveNav();
+    </script>
+  </body>
+</html>
